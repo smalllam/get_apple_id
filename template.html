@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple ID 账号列表</title>
+  <style>
+    /* 基础样式 - 亮色模式 */
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #333333;
+      background-color: transparent;
+      margin: 0;
+      padding: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      border: 1px solid #dddddd;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border: 1px solid #dddddd;
+    }
+
+    h1, th, td {
+      color: #333333;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+
+    p {
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #333333;
+    }
+
+    /* 暗黑模式样式 */
+    body.dark-mode {
+      color: #e0e0e0;
+    }
+
+    body.dark-mode table {
+      border-color: #555555;
+    }
+
+    body.dark-mode th,
+    body.dark-mode td {
+      border-color: #555555;
+      color: #e0e0e0;
+    }
+
+    body.dark-mode h1,
+    body.dark-mode p {
+      color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Apple ID 账号列表</h1>
+  <p>获取时间: {{TIMESTAMP}}</p>
+  <table>
+    <thead>
+      <tr>
+        <th>序号</th>
+        <th>账号</th>
+        <th>密码</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{TABLE_CONTENT}}
+    </tbody>
+  </table>
+
+  <script>
+    // 检测父容器暗黑模式的函数
+    function checkParentTheme() {
+      try {
+        // 尝试访问父窗口（可能会因跨域限制而失败）
+        if (window.parent && window.parent.document) {
+          const parentBody = window.parent.document.body;
+          const parentHtml = window.parent.document.documentElement;
+
+          // 检查父容器的HTML或BODY是否包含dark相关的类或属性
+          const isDarkMode = parentBody.classList.contains('dark') ||
+                             parentBody.classList.contains('dark-mode') ||
+                             parentBody.classList.contains('darkmode') ||
+                             parentHtml.classList.contains('dark') ||
+                             parentHtml.classList.contains('dark-mode') ||
+                             parentHtml.getAttribute('data-theme') === 'dark' ||
+                             parentBody.getAttribute('data-theme') === 'dark' ||
+                             window.parent.document.querySelector('html[class*="dark"]') !== null;
+
+          // 根据检测结果应用或移除暗黑模式类
+          if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+          } else {
+            document.body.classList.remove('dark-mode');
+          }
+
+          return true; // 成功检测父窗口
+        }
+      } catch (error) {
+        // 跨域访问被阻止，回退到系统偏好
+        return false;
+      }
+
+      return false; // 无法检测父窗口
+    }
+
+    // 如果无法读取父窗口（例如跨域限制），则回退到系统偏好
+    function fallbackToSystemPreference() {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+    }
+
+    // 首次检查主题
+    if (!checkParentTheme()) {
+      fallbackToSystemPreference();
+    }
+
+    // 设置观察器监听父容器变化（如果可以访问）
+    try {
+      if (window.parent && window.parent.document) {
+        const parentHtml = window.parent.document.documentElement;
+        const parentBody = window.parent.document.body;
+
+        // 创建一个MutationObserver实例
+        const observer = new MutationObserver(function() {
+          checkParentTheme();
+        });
+
+        // 配置观察选项
+        const config = { attributes: true, attributeFilter: ['class', 'data-theme'] };
+
+        // 开始观察HTML和BODY元素
+        observer.observe(parentHtml, config);
+        observer.observe(parentBody, config);
+      }
+    } catch (error) {
+      // 无法访问父窗口或设置观察器
+      console.log("无法监听父容器变化");
+
+      // 监听系统主题变化
+      if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', fallbackToSystemPreference);
+      }
+    }
+  </script>
+</body>
+</html>

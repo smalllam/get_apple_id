@@ -1,0 +1,57 @@
+name: 每日抓取 Apple ID
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+# 添加权限配置
+permissions:
+  contents: write
+
+jobs:
+  fetch-and-update:
+    runs-on: ubuntu-latest
+
+    env:
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'false'
+      PUPPETEER_EXECUTABLE_PATH: ''
+
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v3
+      with:
+        # 确保获取完整的 Git 历史记录，便于提交
+        fetch-depth: 0
+
+    - name: 设置 Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: 安装依赖
+      run: npm install puppeteer fs path
+
+    - name: 执行抓取脚本
+      run: node index.mjs
+      env:
+        PUPPETEER_ARGS: '--no-sandbox --disable-setuid-sandbox'
+
+    - name: 检查文件变更并提交
+      # 使用提供的 token 进行认证
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+        # 检查是否有变更
+        if git diff --quiet index.html; then
+          echo "index.html 没有变更，不需要提交"
+        else
+          # 提交变更
+          git add index.html
+          git commit -m "自动更新: Apple ID账号列表 [$(date '+%Y-%m-%d')]"
+          git push
+          echo "index.html 已更新并提交"
+        fi
