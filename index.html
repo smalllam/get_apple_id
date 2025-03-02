@@ -1,1031 +1,449 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apple ID List</title>
-  <style>
-    /* 基础样式 - 亮色模式 */
-    :root {
-      --primary-color: #0070c9;
-      --secondary-color: #f5f5f7;
-      --text-color: #333333;
-      --border-color: #d2d2d7;
-      --hover-color: #f2f2f2;
-      --accent-color: #06c;
-      --shadow-color: rgba(0, 0, 0, 0.1);
-      --card-bg: #ffffff;
-      --copy-bg: rgba(0, 112, 201, 0.1);
-      --copy-color: #0070c9;
-      --copy-success-bg: rgba(76, 175, 80, 0.1);
-      --copy-success-color: #4CAF50;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-      color: var(--text-color);
-      background-color: var(--secondary-color);
-      margin: 0;
-      padding: 20px;
-      line-height: 1.5;
-      transition: all 0.3s ease;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      background-color: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: 0 4px 20px var(--shadow-color);
-      padding: 25px;
-      transition: all 0.3s ease;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      margin-top: 15px;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px var(--shadow-color);
-    }
-
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    th {
-      background-color: var(--primary-color);
-      color: white;
-      font-weight: 500;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-      letter-spacing: 0.5px;
-    }
-
-    tr:hover {
-      background-color: var(--hover-color);
-      transition: background-color 0.2s ease;
-    }
-
-    td {
-      transition: all 0.2s ease;
-      position: relative;
-      cursor: pointer;
-    }
-
-    /* 复制功能相关样式 */
-    td::after {
-      content: "Copy";
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: var(--copy-bg);
-      color: var(--copy-color);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      opacity: 0.8;
-      transition: all 0.2s ease;
-    }
-
-    td:hover::after {
-      opacity: 1;
-      background-color: var(--primary-color);
-      color: white;
-    }
-
-    td.copy-success::after {
-      content: "Copyed!";
-      background-color: var(--copy-success-bg);
-      color: var(--copy-success-color);
-    }
-    td:first-child {
-      width: 20%;
-    }
-    td:nth-child(2) {
-      width: 45%;
-    }
-    td:nth-child(3) {
-      width: 35%;
-    }
-    td:first-child::after {
-      content: ' ';
-      display: none;
-    }
-
-    h1 {
-      margin-top: 0;
-      font-size: 1.8rem;
-      color: var(--primary-color);
-      font-weight: 600;
-      margin-bottom: 10px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid var(--primary-color);
-      display: inline-block;
-    }
-
-    p {
-      margin-bottom: 15px;
-      font-size: 0.95rem;
-      color: #666;
-      font-style: italic;
-    }
-
-    /* 暗黑模式样式 */
-    body.dark {
-      --primary-color: #0a84ff;
-      --secondary-color: #1c1c1e;
-      --text-color: #f5f5f7;
-      --border-color: #38383a;
-      --hover-color: #2c2c2e;
-      --accent-color: #5ac8fa;
-      --shadow-color: rgba(0, 0, 0, 0.3);
-      --card-bg: #2c2c2e;
-      --copy-bg: rgba(10, 132, 255, 0.2);
-      --copy-color: #0a84ff;
-      --copy-success-bg: rgba(48, 209, 88, 0.2);
-      --copy-success-color: #30d158;
-      background-color: #000000;
-    }
-
-    body.dark table {
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-    }
-
-    body.dark tr:nth-child(even) {
-      background-color: #252527;
-    }
-
-    body.dark p {
-      color: #a1a1a6;
-    }
-
-    /* 添加响应式设计 */
-    @media (max-width: 768px) {
-      body {
-        padding: 10px;
-      }
-
-      .container {
-        padding: 15px;
-      }
-
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      th, td {
-        padding: 10px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      th, td {
-        padding: 8px 6px;
-        font-size: 0.9rem;
-      }
-
-      td:hover::after {
-        font-size: 0.7rem;
-        right: 4px;
-        padding: 1px 4px;
-      }
-
-      .container {
-        padding: 10px;
-        border-radius: 8px;
-      }
-
-      h1 {
-        font-size: 1.3rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>账号信息查看器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            padding: 20px;
+        }
+        .card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border-left: 4px solid #4caf50;
+            background-color: white;
+            transition: transform 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .badge {
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .btn {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            padding: 6px 12px;
+        }
+        .btn-primary {
+            background-color: #2196f3;
+            border-color: #2196f3;
+        }
+        .btn-success {
+            background-color: #4caf50;
+            border-color: #4caf50;
+        }
+        .accounts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .accounts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        #alertBox {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            background-color: #4caf50;
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+            animation: fadeInOut 2s ease;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #666;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: #2196f3;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .refresh-btn {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+        }
+        .warning-text {
+            color: #ff0000;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background-color: #4caf50;
+            color: white;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+        .email-display {
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Apple ID List</h1>
-    <p>Last Updated: 2025/03/02 18:31:22</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Region / Status</th>
-          <th>Account</th>
-          <th>Password</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-        <tr>
-          <td>Normal</td>
-          <td>jarvarisrivetteuf3409@gmail.com</td>
-          <td>MuBQYgmUB4</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>aletheacantorejx4711@gmail.com</td>
-          <td>3A6Y4cChb2</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>thandiwebockrathca6535@gmail.com</td>
-          <td>8c7DBJsMqc</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>gervasiuszogbyrb1324@gmail.com</td>
-          <td>m8ccZTsmmr</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>yehudihighmance1128@gmail.com</td>
-          <td>YBG76ZBvTu</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>carmiamaultuo8011@gmail.com</td>
-          <td>VFF3Wn66E1</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>TinaGeraldkfyxt@gmail.com</td>
-          <td>EjNbXtQ9S1</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>nicholasgyw119@gmail.com</td>
-          <td>DcFA5mjbxx</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>karmenglossonkt2271@gmail.com</td>
-          <td>rMjXr36GAy</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>kendricplymirezx4270@gmail.com</td>
-          <td>HZv4E5dMKy</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>cielgrassmanta2974@gmail.com</td>
-          <td>zn6pE7n8Ng</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>lorryberteauzn8953@gmail.com</td>
-          <td>4vjw38heNf</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>fideliahnewsontx1077@gmail.com</td>
-          <td>1s64dMKqxj</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>pinedmaa@gmail.com</td>
-          <td>Dd106904d</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>sawolf473@gmail.com</td>
-          <td>Dd1723266</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>anittamanclar6523@gmail.com</td>
-          <td>halsh?Dd17bf23c</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>carolpelliottyfwj4@gmail.com</td>
-          <td>7CdKy5qKyK</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>jacobgomax0@hotmail.com</td>
-          <td>qB5bE7&A</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>DeborazpiHarr967@icloud.com</td>
-          <td>B74ywBmaCA</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>hujueson@gmail.com</td>
-          <td>Dd1defe37</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>tham65knight@hotmail.com</td>
-          <td>d&E54ikS</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>CharlesJameslqxgh@gmail.com</td>
-          <td>5rtHaUqM61</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>cemende96@gmail.com</td>
-          <td>Dd120954b</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>iifrvmcemn@xysd.pro</td>
-          <td>fMUs6hdenhr</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>jfjffjjj@colabeta.com</td>
-          <td>ZX0rdtM&</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>danielshaw5ea@hotmail.com</td>
-          <td>0N9L5&d9</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>amaninstreiftm4089@gmail.com</td>
-          <td>!O94YzgX</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>ezrap1h5wilson@hotmail.com</td>
-          <td>3y@2QI6D</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>ezragreene14@hotmail.com</td>
-          <td>U@DODg2N</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>jaydenbwolson@hotmail.com</td>
-          <td>SDg17n22</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>verniceletitia26754@gmail.com</td>
-          <td>V#q1NSyY</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>vieraterry46885616@gmail.com</td>
-          <td>9koOz&oK</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>southerngrl28@hotmail.com</td>
-          <td>QC&37Nln</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>leoharperfb3@hotmail.com</td>
-          <td>fI4!4HWt</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>tauwe3570rmz@hotmail.com</td>
-          <td>!bW4gnWI</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>hurstka329@gmail.com</td>
-          <td>6Zo!Ai2Q</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>dronebv41@hotmail.com</td>
-          <td>#b6YPzZq</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>jthompsonln77@gmail.com</td>
-          <td>tN#waur4</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>johnnyvang630@gmail.com</td>
-          <td>a76Pi!HY</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>alfredoalfredomaldonado@gmail.com</td>
-          <td>L#jtTPW5</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>jamalsexton17@gmail.com</td>
-          <td>NIT8lHJ@</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>allieolsen539@gmail.com</td>
-          <td>@Tii7ctY</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>johnsontalanui26@gmail.com</td>
-          <td>3#oRtmEI</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>barrettiris71@gmail.com</td>
-          <td>xHV!7LgW</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>aliciawilkinson47106@gmail.com</td>
-          <td>#6hxKbAT</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>daltonkayleebb89@gmail.com</td>
-          <td>Q1g#l5xV</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>jadenguerreroxm63@gmail.com</td>
-          <td>gplPP6!z</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>richardrowe71494558@gmail.com</td>
-          <td>@0cJnm0Z</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>huffwells57685289@gmail.com</td>
-          <td>6z&FuYfs</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>gunnjeichere@hotmail.com</td>
-          <td>Tn#11VVv</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>suranqkkolatj@hotmail.com</td>
-          <td>A9JdbT#u</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>crazemqadautof@hotmail.com</td>
-          <td>@k80oYGI</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>chikkopjcodnerfii@hotmail.com</td>
-          <td>@IadDGj9</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>marcuskhughesrghi5@gmail.com</td>
-          <td>WHhUm4EjXs</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>bd71hp13@outlook.com</td>
-          <td>SHMbb9Rma5</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>no96fd6725@outlook.com</td>
-          <td>EVvD6uvXBW</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>jaarnoldoq7@outlook.com</td>
-          <td>nnSQZWaat3</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>winsonshun@hotmail.com</td>
-          <td>evBDf2zrFy</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>ernestrsteeledyosc@gmail.com</td>
-          <td>8E3edCE58H</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>KaitlynAnderson260@gmail.com</td>
-          <td>8QX8uPT136</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>karlasharonpq9w@hotmail.com</td>
-          <td>eM2PeVU4g9</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>bhboenaibeuacuebianoe@gmail.com</td>
-          <td>tZh8kmSMdz</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>jacobiruizgfkvf@gmail.com</td>
-          <td>7ZA2pG1ERq</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>samuelctygut@hotmail.com</td>
-          <td>zBHDTuB1qa</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>velmavdanielsb3rdn@gmail.com</td>
-          <td>DsG2uTDzH1</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>mk88rh251@outlook.com</td>
-          <td>Nvqjrx9qNk</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>brandonfisheriuew@gmail.com</td>
-          <td>Vpu5sEzPn5</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>masontkoward@outlook.com</td>
-          <td>65kRt2ugc8</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>DillonAnabel477@gmail.com</td>
-          <td>RZx7d3DBWZ</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>sareiyazepik64@gmail.com</td>
-          <td>RqruY6hsv9</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>phyllisxjimenezhx7vm@gmail.com</td>
-          <td>mD9U1c5ZDB</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>sayveonmeasonmi8267@gmail.com</td>
-          <td>HGb8RJdYYu</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>valmamerantevq8179@gmail.com</td>
-          <td>P2sWaRvYrQ</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>woodta56@gmail.com</td>
-          <td>Dd1d182d8</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>dszyochkrq@xysd.pro</td>
-          <td>EqujdsQtJJ7</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>shwong25245@gmail.com</td>
-          <td>Dd17e8360</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>miastnley@gmail.com</td>
-          <td>Dd116bab4</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>lilovartiimbimboui6893@gmail.com</td>
-          <td>hQKpwtsmF3</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>DerrickEaton19856@gmail.com</td>
-          <td>9ZtmtZHCEm</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>NathanOrtiz20003@gmail.com</td>
-          <td>Q4nMmYR8Y5</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>TanyaPatterson200210@gmail.com</td>
-          <td>RnuG3CbTYk</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>michaelclarkn8686@gmail.com</td>
-          <td>dat2B6rsyZ</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>AntonioHiggins20026@gmail.com</td>
-          <td>5sNr7zQHDA</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>LeonardCastro19956@gmail.com</td>
-          <td>4AsbuSgdws</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>FX88888888.COM_2@ICLOUD.COM</td>
-          <td>shenhouyun.COM_yC5HEGhmgE</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>CCVCVGGI@ICLOUD.COM</td>
-          <td>shenhouyun.COM_DW1g8Ekd47</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>shenhouyun.com_21@ICLOUD.COM</td>
-          <td>shenhouyun.COM_1dFWS33rv4</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>FX88888888.COM_1@ICLOUD.COM</td>
-          <td>shenhouyun.COM_Y4ZhJAnaNG</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>shenhouyun.com_19@ICLOUD.COM</td>
-          <td>shenhouyun.COM_HzPt7nZAJv</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>shenhouyun.com_13@icloud.com</td>
-          <td>shenhouyun.COM_a2NhQsSczg</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>shenhouyun.com_22@ICLOUD.COM</td>
-          <td>shenhouyun.COM_mKtFd6CjuE</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>FX88888888.COM@ICLOUD.COM</td>
-          <td>shenhouyun.COM_gg2C4cmTUT</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>shenhouyun.com_17@ICLOUD.COM</td>
-          <td>shenhouyun.COM_QD2wgB7Qhc</td>
-        </tr>
-      
-        <tr>
-          <td>Normal</td>
-          <td>shenhouyun.com_12@ICLOUD.COM</td>
-          <td>shenhouyun.COM_fT6RHbUVyM</td>
-        </tr>
-      
-        <tr>
-          <td>香港</td>
-          <td>bradtnrosalbav39153@gmail.com</td>
-          <td>91SdCj819j</td>
-        </tr>
-      
-        <tr>
-          <td>美国</td>
-          <td>MirandzpiHugh848@icloud.com</td>
-          <td>AE4XUd7NmB</td>
-        </tr>
-      
-        <tr>
-          <td>美国</td>
-          <td>KevizpiMe644@icloud.com</td>
-          <td>Kr8tTrG9JR</td>
-        </tr>
-      
-        <tr>
-          <td>美国</td>
-          <td>rowenawoodard246042b@icloud.com</td>
-          <td>suA8nZMNKf</td>
-        </tr>
-      
-        <tr>
-          <td> 美国</td>
-          <td>erbamy387@gmail.com</td>
-          <td>44s4bH47mZbyzS</td>
-        </tr>
-      
-        <tr>
-          <td> 美国</td>
-          <td>schultzhbneyosvaldo@gmail.com</td>
-          <td>44s4A4RMx5N2zG</td>
-        </tr>
-      
-        <tr>
-          <td>日本</td>
-          <td>robertwang380@gmail.com</td>
-          <td>5Skv1vmc3M</td>
-        </tr>
-      
-        <tr>
-          <td>韩国</td>
-          <td>samuelrouse301@gmail.com</td>
-          <td>vTe7p47KHy</td>
-        </tr>
-      
-        <tr>
-          <td>新加坡</td>
-          <td>vgilesgh42@gmail.com</td>
-          <td>jSwmCW31fd</td>
-        </tr>
-      
-        <tr>
-          <td>韩国</td>
-          <td>timothybyrd139@gmail.com</td>
-          <td>6ukGmUPWFx</td>
-        </tr>
-      
-        <tr>
-          <td>美国</td>
-          <td>oelwilliamgonzalez616@gmail.com</td>
-          <td>HG4W4Cqdka</td>
-        </tr>
-      
-        <tr>
-          <td>香港</td>
-          <td>GarciaNancyvfh7@gmail.com</td>
-          <td>9Amy9wrDEY</td>
-        </tr>
-      
-        <tr>
-          <td>美国</td>
-          <td>lambertruth282@gmail.com</td>
-          <td>WS2YYjhf3n</td>
-        </tr>
-      
-        <tr>
-          <td>台湾</td>
-          <td>PerezBettyzzd@gmail.com</td>
-          <td>S3QmtpvCF7</td>
-        </tr>
-      
-        <tr>
-          <td> 美国</td>
-          <td>us94@44s4.com</td>
-          <td>44s4mPsV3pCfA8</td>
-        </tr>
-      
-        <tr>
-          <td> 美国</td>
-          <td>GeForcertx14753@gmail.com</td>
-          <td>44s4kUKaED9JXa</td>
-        </tr>
-      
-        <tr>
-          <td>美国</td>
-          <td>qian2007495zhan@163.com</td>
-          <td>W7HJ3kt8kM</td>
-        </tr>
-      
-        <tr>
-          <td>美国</td>
-          <td>qfpcwzp942@163.com</td>
-          <td>mxhp8mP9BJ</td>
-        </tr>
-      
-        <tr>
-          <td>香港</td>
-          <td>qfvblj2968@163.com</td>
-          <td>YM4E9HUnXa</td>
-        </tr>
-      
-        <tr>
-          <td>美国</td>
-          <td>qgb477203@163.com</td>
-          <td>ubCsEVq4T2</td>
-        </tr>
-      
-        <tr>
-          <td>美国</td>
-          <td>REBELPRIDE79@hotmail.com</td>
-          <td>Vtq5NnDtGF</td>
-        </tr>
-      
-      </tbody>
-    </table>
+<!-- 🔹 顶部提示 -->
+<div class="alert text-center" role="alert" style="font-size: 16pt; font-weight: bold; padding: 15px; border-radius: 8px; color: #856404; display: flex; justify-content: center; align-items: center; text-align: center;">
+    <div>
+      <span style="color: #e03e2d; font-size: 32pt; font-weight: bolder;">
+        ⚠️ 注意 ⚠️
+      </span><br>
+      <span style="color: #236fa1;">🚫 以下账户</span>
+      <span style="color: #e03e2d;"> 请勿在设置</span>
+      <span style="color: #236fa1;"> 中登录！</span><br>
+      <span style="color: #236fa1;"> ✅ 只需要在</span>
+      <span style="color: #2dc26b;"> App Store</span>
+      <span style="color: #236fa1;"> 中登录！</span>
+    </div>
   </div>
+    <div class="container">
+        <div class="header">
+            <h2>账号列表</h2>
+            <div>
+                上次更新: <span id="updateTimestamp">2025/2/25 19:10:15</span>
+                <button id="refreshBtn" class="refresh-btn">刷新</button>
+            </div>
+        </div>
 
-  <script>
-    function checkParentTheme() {
-      try {
-        if (window.parent && window.parent.document) {
-          const parentBody = window.parent.document.body;
-          const parentHtml = window.parent.document.documentElement;
+        <div class="accounts-container" id="accountsContainer">
+            <!-- 账号卡片将在此动态生成 -->
+        </div>
+    </div>
 
-          const isDarkMode = parentBody.classList.contains('dark') ||
-                             parentBody.classList.contains('dark-mode') ||
-                             parentBody.classList.contains('darkmode') ||
-                             parentHtml.classList.contains('dark') ||
-                             parentHtml.classList.contains('dark-mode') ||
-                             parentHtml.getAttribute('data-theme') === 'dark' ||
-                             parentBody.getAttribute('data-theme') === 'dark' ||
-                             window.parent.document.querySelector('html[class*="dark"]') !== null;
+    <div id="alertBox"></div>
 
-          if (isDarkMode) {
-            document.body.classList.add('dark');
-          } else {
-            document.body.classList.remove('dark');
-          }
-
-          return true;
-        }
-      } catch (error) {
-        return false;
-      }
-
-      return false;
-    }
-
-    function fallbackToSystemPreference() {
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-      } else {
-        document.body.classList.remove('dark');
-      }
-    }
-
-    if (!checkParentTheme()) {
-      fallbackToSystemPreference();
-    }
-
-    try {
-      if (window.parent && window.parent.document) {
-        const parentHtml = window.parent.document.documentElement;
-        const parentBody = window.parent.document.body;
-
-        const observer = new MutationObserver(function() {
-          checkParentTheme();
-        });
-
-        const config = { attributes: true, attributeFilter: ['class', 'data-theme'] };
-
-        observer.observe(parentHtml, config);
-        observer.observe(parentBody, config);
-      }
-    } catch (error) {
-      console.log("Unable to listen for parent container changes");
-      if (window.matchMedia) {
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', fallbackToSystemPreference);
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      const tbody = document.querySelector('tbody');
-      const allRows = Array.from(tbody.querySelectorAll('tr'));
-
-      if (allRows.length > 10) {
-        allRows.forEach(row => row.style.display = 'none');
-
-        const randomIndices = [];
-        while (randomIndices.length < 10 && randomIndices.length < allRows.length) {
-          const randomIndex = Math.floor(Math.random() * allRows.length);
-          if (!randomIndices.includes(randomIndex)) {
-            randomIndices.push(randomIndex);
-          }
-        }
-
-        randomIndices.forEach(index => {
-          allRows[index].style.display = '';
-        });
-      }
-
-      document.querySelectorAll('td').forEach(cell => {
-        cell.addEventListener('click', function() {
-          const text = this.textContent.trim();
-
-          const textarea = document.createElement('textarea');
-          textarea.value = text;
-          textarea.style.position = 'fixed';
-          textarea.style.opacity = 0;
-          document.body.appendChild(textarea);
-          textarea.select();
-
-          try {
-            document.execCommand('copy');
-
-            this.classList.add('copy-success');
-
+    <script>
+        // 添加反调试和反爬虫保护
+        (function() {
+            // 禁用右键菜单
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            
+            // 禁用F12、Ctrl+Shift+I等开发者工具快捷键
+            document.addEventListener('keydown', function(e) {
+                if (
+                    // F12
+                    e.keyCode === 123 || 
+                    // Ctrl+Shift+I
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 73) || 
+                    // Ctrl+Shift+J
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 74) || 
+                    // Ctrl+Shift+C
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 67) ||
+                    // Ctrl+U (查看源代码)
+                    (e.ctrlKey && e.keyCode === 85)
+                ) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // 检测开发者工具是否打开
+            let devToolsOpen = false;
+            const threshold = 160;
+            
+            setInterval(function() {
+                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+                
+                if (
+                    widthThreshold || 
+                    heightThreshold || 
+                    (window.Firebug && window.Firebug.chrome && window.Firebug.chrome.isInitialized)
+                ) {
+                    if (!devToolsOpen) {
+                        devToolsOpen = true;
+                        // 隐藏关键内容或采取其他措施
+                        document.body.innerHTML = '<div style="text-align:center;padding:50px;"><h1>出于安全考虑，请关闭开发者工具后刷新页面</h1></div>';
+                    }
+                } else {
+                    devToolsOpen = false;
+                }
+            }, 1000);
+            
+            // 混淆API调用路径
+            const originalFetch = window.fetch;
+            window.fetch = function(url, options) {
+                // 在网络请求中添加随机参数，防止缓存和分析
+                if(url.includes('/api/')) {
+                    const separator = url.includes('?') ? '&' : '?';
+                    url = `${url}${separator}_=${Math.random().toString(36).substring(2)}`;
+                }
+                return originalFetch(url, options);
+            };
+        })();
+        
+        // 配置选项 - 可根据需要修改
+        const CONFIG = {
+            API_URL: 'https://apple-id.small-lam1814.workers.dev/api/accounts', // Worker URL
+            SCRAPE_URL: 'https://apple-id.small-lam1814.workers.dev/api/scrape', // Worker URL
+            AUTO_REFRESH_INTERVAL: 60000, // 自动刷新间隔（毫秒）
+            ALERT_DURATION: 2000 // 提示框显示时间（毫秒）
+        };
+        
+        // DOM 元素
+        const accountsContainer = document.getElementById('accountsContainer');
+        const alertBox = document.getElementById('alertBox');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const updateTimestamp = document.getElementById('updateTimestamp');
+        
+        // 变量
+        let isRefreshing = false;
+        
+        // 显示提示框
+        function showAlert(message, type = 'success') {
+            alertBox.textContent = message;
+            alertBox.style.display = 'block';
+            
+            if (type === 'success') {
+                alertBox.style.backgroundColor = '#4caf50';
+            } else if (type === 'error') {
+                alertBox.style.backgroundColor = '#f44336';
+            }
+            
             setTimeout(() => {
-              this.classList.remove('copy-success');
+                alertBox.style.display = 'none';
             }, 2000);
-          } catch (err) {
-            console.error('Unable to copy content: ', err);
-          } finally {
-            document.body.removeChild(textarea);
-          }
-        });
-      });
-    });
-  </script>
+        }
+        
+        // 复制到剪贴板函数
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    showAlert('复制成功！');
+                })
+                .catch(err => {
+                    console.error('复制失败:', err);
+                    
+                    // 兼容性处理
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    textarea.style.position = 'fixed';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    
+                    try {
+                        const successful = document.execCommand('copy');
+                        if (successful) {
+                            showAlert('复制成功！');
+                        } else {
+                            showAlert('复制失败，请手动复制', 'error');
+                        }
+                    } catch (err) {
+                        showAlert('复制失败，请手动复制', 'error');
+                    }
+                    
+                    document.body.removeChild(textarea);
+                });
+        }
+        
+        // 示例账号数据
+        const sampleAccounts = [
+            {
+                username: 'jebnslz90o68zdz@hotmail.com',
+                password: 'Password123',
+                country: '美国',
+                checkTime: '2025-02-25 19:05:45',
+                status: '正常'
+            },
+            {
+                username: 'e0vg8xlw@qq.com',
+                password: 'Password456',
+                country: '美国',
+                checkTime: '2025-02-25 19:05:45',
+                status: '正常'
+            },
+            {
+                username: 'alejandromepc63@gmail.com',
+                password: 'Password789',
+                country: '美国',
+                checkTime: '2025-02-25 19:05:48',
+                status: '正常'
+            }
+        ];
+        
+        // 显示账号
+        function displayAccounts(accounts) {
+            accountsContainer.innerHTML = '';
+            
+            accounts.forEach(account => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                card.innerHTML = `
+                    <div class="card-body">
+                        <h3 class="card-title">账号信息</h3>
+                        <div class="email-display">${account.username} <span class="badge bg-primary">${account.country}</span></div>
+                        <p>账号信息:</p>
+                        <p><span class="warning-text">📄 如状态异常，或者需要验证码，请5分钟后刷新网页，或使用其他账号</span></p>
+                        <p>上次检查: ${account.checkTime}</p>
+                        <p>状态: <span class="status-badge">${account.status}</span></p>
+                        <div style="margin: 15px 0;">
+                            <button class="btn btn-primary" onclick="copyToClipboard('${account.username}')">复制账号</button>
+                            <button class="btn btn-success" onclick="copyToClipboard('${account.password}')">复制密码</button>
+                        </div>
+                    </div>
+                `;
+                
+                accountsContainer.appendChild(card);
+            });
+        }
+        
+        // 获取账号数据
+        function fetchAccountsData() {
+            return fetch(CONFIG.API_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('获取账号数据失败，状态码: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('API请求失败:', error);
+                    throw error;
+                });
+        }
+        
+        // 手动触发爬取
+        function triggerScrape() {
+            if (isRefreshing) return Promise.reject(new Error('正在刷新中'));
+            
+            isRefreshing = true;
+            refreshBtn.textContent = '刷新中...';
+            refreshBtn.disabled = true;
+            
+            return fetch(CONFIG.SCRAPE_URL, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('爬取结果:', data);
+                showAlert('数据刷新成功', 'success');
+                return fetchAccountsData();
+            })
+            .catch(error => {
+                showAlert('刷新失败: ' + error.message, 'error');
+                throw error;
+            })
+            .finally(() => {
+                isRefreshing = false;
+                refreshBtn.textContent = '刷新';
+                refreshBtn.disabled = false;
+            });
+        }
+        
+        // 格式化日期时间
+        function formatDateTime(dateTimeStr) {
+            const date = new Date(dateTimeStr);
+            return date.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+        
+        // 初始化应用
+        function initApp() {
+            // 获取初始数据
+            fetchAccountsData()
+                .then(data => {
+                    updateTimestamp.textContent = formatDateTime(data.timestamp);
+                    displayAccounts(data.accounts || sampleAccounts);
+                    
+                    // 设置自动刷新
+                    setInterval(() => {
+                        if (!isRefreshing) {
+                            fetchAccountsData()
+                                .then(newData => {
+                                    updateTimestamp.textContent = formatDateTime(newData.timestamp);
+                                    displayAccounts(newData.accounts || []);
+                                })
+                                .catch(error => {
+                                    console.error('自动刷新失败:', error);
+                                    // 静默失败，不影响用户体验
+                                });
+                        }
+                    }, CONFIG.AUTO_REFRESH_INTERVAL);
+                })
+                .catch(error => {
+                    console.error('获取账号数据失败:', error);
+                    // 显示示例数据作为后备
+                    displayAccounts(sampleAccounts);
+                });
+            
+            // 设置手动刷新按钮
+            refreshBtn.addEventListener('click', () => {
+                if (!isRefreshing) {
+                    triggerScrape()
+                        .then(data => {
+                            updateTimestamp.textContent = formatDateTime(data.timestamp);
+                            displayAccounts(data.accounts || []);
+                        })
+                        .catch(error => {
+                            console.error('手动刷新失败:', error);
+                        });
+                }
+            });
+        }
+        
+        // 页面加载后初始化应用
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
 </body>
 </html>
