@@ -8,15 +8,15 @@
     /* 基础样式 - 亮色模式 */
     :root {
       --primary-color: #F0BF4C;
-      --secondary-color: #F6DFBB;
+      --secondary-color: #FFF8F3;
       --text-color: #333333;
       --border-color: #d2d2d7;
       --hover-color: #F6DFBB;
       --accent-color: #06c;
       --shadow-color: rgba(0, 0, 0, 0.1);
-      --card-bg: #F6DFBB;
+      --card-bg: #FFF8F3;
       --copy-bg: rgba(0, 112, 201, 0.1);
-      --copy-color: #F0BF4C;
+      --copy-color: #06c;
       --copy-success-bg: rgba(76, 175, 80, 0.1);
       --copy-success-color: #4CAF50;
       --background-color: #F6DFBB;
@@ -40,6 +40,7 @@
       box-shadow: 0 4px 20px var(--shadow-color);
       padding: 25px;
       transition: all 0.3s ease;
+      overflow-x: auto; /* 新增：横向滚动 */
     }
 
     table {
@@ -56,6 +57,8 @@
       padding: 12px 15px;
       text-align: left;
       border-bottom: 1px solid var(--border-color);
+      padding-right: 60px;  /* 新增：为防止文字和按钮重叠 */
+      word-break: break-word; /* 新增：自动换行 */
     }
 
     th {
@@ -189,6 +192,7 @@
       th, td {
         padding: 8px 6px;
         font-size: 0.9rem;
+        padding-right: 60px; /* 保持右侧内边距 */
       }
 
       td:hover::after {
@@ -215,9 +219,10 @@
     <table>
       <thead>
         <tr>
-          <th>Region / Status</th>
-          <th>Account</th>
-          <th>Password</th>
+          <th>地区 / 状态</th>
+          <th>帐户</th>
+          <th>密码
+          </th>
         </tr>
       </thead>
       <tbody>
