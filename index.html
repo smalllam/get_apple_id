@@ -59,6 +59,9 @@
       border-bottom: 1px solid var(--border-color);
       padding-right: 60px;  /* 新增：为防止文字和按钮重叠 */
       word-break: break-word; /* 新增：自动换行 */
+      overflow: hidden; /* 隐藏溢出内容 */
+      text-overflow: ellipsis; /* 超出部分显示省略号 */
+      white-space: nowrap; /* 防止文本换行 */
     }
 
     th {
