@@ -145,6 +145,7 @@ async function generateHtmlFile(accounts: AppleID[], filePath: string): Promise<
 
     // 获取当前时间
     const timestamp = new Date().toLocaleString('zh-CN', {
+      timeZone: 'Asia/Shanghai', // 指定时区
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
