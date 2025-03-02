@@ -3,151 +3,781 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apple ID 账号列表</title>
+  <title>Apple ID List</title>
   <style>
     /* 基础样式 - 亮色模式 */
+    :root {
+      --primary-color: #0070c9;
+      --secondary-color: #f5f5f7;
+      --text-color: #333333;
+      --border-color: #d2d2d7;
+      --hover-color: #f2f2f2;
+      --accent-color: #06c;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --card-bg: #ffffff;
+      --copy-bg: rgba(0, 112, 201, 0.1);
+      --copy-color: #0070c9;
+      --copy-success-bg: rgba(76, 175, 80, 0.1);
+      --copy-success-color: #4CAF50;
+    }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      color: #333333;
-      background-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      color: var(--text-color);
+      background-color: var(--secondary-color);
       margin: 0;
-      padding: 10px;
+      padding: 20px;
+      line-height: 1.5;
+      transition: all 0.3s ease;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px var(--shadow-color);
+      padding: 25px;
+      transition: all 0.3s ease;
     }
 
     table {
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      border: 1px solid #dddddd;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 15px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px var(--shadow-color);
     }
 
     th, td {
-      padding: 8px;
+      padding: 12px 15px;
       text-align: left;
-      border: 1px solid #dddddd;
+      border-bottom: 1px solid var(--border-color);
     }
 
-    h1, th, td {
-      color: #333333;
+    th {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    tr:hover {
+      background-color: var(--hover-color);
+      transition: background-color 0.2s ease;
+    }
+
+    td {
+      transition: all 0.2s ease;
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* 复制功能相关样式 */
+    td::after {
+      content: "Copy";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: var(--copy-bg);
+      color: var(--copy-color);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      opacity: 0.8;
+      transition: all 0.2s ease;
+    }
+
+    td:hover::after {
+      opacity: 1;
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    td.copy-success::after {
+      content: "Copyed!";
+      background-color: var(--copy-success-bg);
+      color: var(--copy-success-color);
+    }
+    td:first-child {
+      width: 20%;
+    }
+    td:nth-child(2) {
+      width: 45%;
+    }
+    td:nth-child(3) {
+      width: 35%;
+    }
+    td:first-child::after {
+      content: ' ';
+      display: none;
     }
 
     h1 {
       margin-top: 0;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary-color);
+      display: inline-block;
     }
 
     p {
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-      color: #333333;
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+      color: #666;
+      font-style: italic;
     }
 
     /* 暗黑模式样式 */
-    body.dark-mode {
-      color: #e0e0e0;
-      background-color: black;
+    body.dark {
+      --primary-color: #0a84ff;
+      --secondary-color: #1c1c1e;
+      --text-color: #f5f5f7;
+      --border-color: #38383a;
+      --hover-color: #2c2c2e;
+      --accent-color: #5ac8fa;
+      --shadow-color: rgba(0, 0, 0, 0.3);
+      --card-bg: #2c2c2e;
+      --copy-bg: rgba(10, 132, 255, 0.2);
+      --copy-color: #0a84ff;
+      --copy-success-bg: rgba(48, 209, 88, 0.2);
+      --copy-success-color: #30d158;
+      background-color: #000000;
     }
 
-    body.dark-mode table {
-      border-color: #555555;
+    body.dark table {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
     }
 
-    body.dark-mode th,
-    body.dark-mode td {
-      border-color: #555555;
-      color: #e0e0e0;
+    body.dark tr:nth-child(even) {
+      background-color: #252527;
     }
 
-    body.dark-mode h1,
-    body.dark-mode p {
-      color: #e0e0e0;
+    body.dark p {
+      color: #a1a1a6;
     }
 
     /* 添加响应式设计 */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      th, td {
+        padding: 10px;
+      }
+    }
+
     @media (max-width: 600px) {
       th, td {
-        padding: 4px;
+        padding: 8px 6px;
         font-size: 0.9rem;
+      }
+
+      td:hover::after {
+        font-size: 0.7rem;
+        right: 4px;
+        padding: 1px 4px;
+      }
+
+      .container {
+        padding: 10px;
+        border-radius: 8px;
+      }
+
+      h1 {
+        font-size: 1.3rem;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Apple ID 账号列表</h1>
-  <p>更新时间: 2025/3/1 15:15:21</p>
-  <table>
-    <thead>
-      <tr>
-        <th>序号</th>
-        <th>账号</th>
-        <th>密码</th>
-      </tr>
-    </thead>
-    <tbody>
+  <div class="container">
+    <h1>Apple ID List</h1>
+    <p>Last Updated: 2025/03/02 19:35:33</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Region / Status</th>
+          <th>Account</th>
+          <th>Password</th>
+        </tr>
+      </thead>
+      <tbody>
 
-      <tr>
-        <td>1</td>
-        <td>owengkmkmoreno@hotmail.com</td>
-        <td>Xud1HAx&</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>tham65knight@hotmail.com</td>
-        <td>gC@b4zYS</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>8s9062li84c0cl@ekeex.com</td>
-        <td>uGl&D99i</td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>jacobgomax0@hotmail.com</td>
-        <td>fn7fW@9J</td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>owengkmkmoreno@hotmail.com</td>
-        <td>Xud1HAx&</td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td>REBELPRIDE79@hotmail.com</td>
-        <td>3ycZrGWDDK</td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td>qfpcwzp942@163.com</td>
-        <td>mxhp8mP9BJ</td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td>qian2007495zhan@163.com</td>
-        <td>d9Y42qdpWb</td>
-      </tr>
-      <tr>
-        <td>9</td>
-        <td>qgb477203@163.com</td>
-        <td>ubCsEVq4T2</td>
-      </tr>
-      <tr>
-        <td>10</td>
-        <td>qfvblj2968@163.com</td>
-        <td>YM4E9HUnXa</td>
-      </tr>
-    </tbody>
-  </table>
+        <tr>
+          <td>美国</td>
+          <td>REBELPRIDE79@hotmail.com</td>
+          <td>3ycZrGWDDK</td>
+        </tr>
+
+        <tr>
+          <td>美国</td>
+          <td>qgb477203@163.com</td>
+          <td>ubCsEVq4T2</td>
+        </tr>
+
+        <tr>
+          <td>香港</td>
+          <td>qfvblj2968@163.com</td>
+          <td>YM4E9HUnXa</td>
+        </tr>
+
+        <tr>
+          <td>美国</td>
+          <td>qian2007495zhan@163.com</td>
+          <td>p5tW5U7dqg</td>
+        </tr>
+
+        <tr>
+          <td>美国</td>
+          <td>qfpcwzp942@163.com</td>
+          <td>mxhp8mP9BJ</td>
+        </tr>
+
+        <tr>
+          <td>美国</td>
+          <td>MirandzpiHugh848@icloud.com</td>
+          <td>J6ZpRgBdtK</td>
+        </tr>
+
+        <tr>
+          <td>美国</td>
+          <td>KevizpiMe644@icloud.com</td>
+          <td>9Hk2aUMprJ</td>
+        </tr>
+
+        <tr>
+          <td>美国</td>
+          <td>rowenawoodard246042b@icloud.com</td>
+          <td>D19C8TWB8u</td>
+        </tr>
+
+        <tr>
+          <td>香港</td>
+          <td>bradtnrosalbav39153@gmail.com</td>
+          <td>xpb8tdU3Hc</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>tham65knight@hotmail.com</td>
+          <td>d&E54ikS</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>valmamerantevq8179@gmail.com</td>
+          <td>JWHYvBmV72</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>sayveonmeasonmi8267@gmail.com</td>
+          <td>JfkXf5eERs</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>CharlesJameslqxgh@gmail.com</td>
+          <td>5rtHaUqM61</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>phyllisxjimenezhx7vm@gmail.com</td>
+          <td>mD9U1c5ZDB</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>carolpelliottyfwj4@gmail.com</td>
+          <td>7CdKy5qKyK</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>sareiyazepik64@gmail.com</td>
+          <td>RqruY6hsv9</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>DillonAnabel477@gmail.com</td>
+          <td>RZx7d3DBWZ</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>masontkoward@outlook.com</td>
+          <td>65kRt2ugc8</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>brandonfisheriuew@gmail.com</td>
+          <td>Vpu5sEzPn5</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>mk88rh251@outlook.com</td>
+          <td>Nvqjrx9qNk</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>velmavdanielsb3rdn@gmail.com</td>
+          <td>DsG2uTDzH1</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>samuelctygut@hotmail.com</td>
+          <td>zBHDTuB1qa</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>jacobiruizgfkvf@gmail.com</td>
+          <td>7ZA2pG1ERq</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>bhboenaibeuacuebianoe@gmail.com</td>
+          <td>tZh8kmSMdz</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>karlasharonpq9w@hotmail.com</td>
+          <td>eM2PeVU4g9</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>KaitlynAnderson260@gmail.com</td>
+          <td>8QX8uPT136</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>ernestrsteeledyosc@gmail.com</td>
+          <td>8E3edCE58H</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>jaarnoldoq7@outlook.com</td>
+          <td>nnSQZWaat3</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>no96fd6725@outlook.com</td>
+          <td>EVvD6uvXBW</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>bd71hp13@outlook.com</td>
+          <td>SHMbb9Rma5</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>marcuskhughesrghi5@gmail.com</td>
+          <td>WHhUm4EjXs</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>chikkopjcodnerfii@hotmail.com</td>
+          <td>XV@5UIml</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>crazemqadautof@hotmail.com</td>
+          <td>@k80oYGI</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>suranqkkolatj@hotmail.com</td>
+          <td>vQ0pY2m@</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>gunnjeichere@hotmail.com</td>
+          <td>Tn#11VVv</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>huffwells57685289@gmail.com</td>
+          <td>6z&FuYfs</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>richardrowe71494558@gmail.com</td>
+          <td>@0cJnm0Z</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>jadenguerreroxm63@gmail.com</td>
+          <td>gplPP6!z</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>daltonkayleebb89@gmail.com</td>
+          <td>Q1g#l5xV</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>aliciawilkinson47106@gmail.com</td>
+          <td>#6hxKbAT</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>barrettiris71@gmail.com</td>
+          <td>xHV!7LgW</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>johnsontalanui26@gmail.com</td>
+          <td>3#oRtmEI</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>allieolsen539@gmail.com</td>
+          <td>@Tii7ctY</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>jamalsexton17@gmail.com</td>
+          <td>NIT8lHJ@</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>alfredoalfredomaldonado@gmail.com</td>
+          <td>L#jtTPW5</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>johnnyvang630@gmail.com</td>
+          <td>a76Pi!HY</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>jthompsonln77@gmail.com</td>
+          <td>g8rZ#p##</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>dronebv41@hotmail.com</td>
+          <td>#b6YPzZq</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>hurstka329@gmail.com</td>
+          <td>6Zo!Ai2Q</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>tauwe3570rmz@hotmail.com</td>
+          <td>!bW4gnWI</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>leoharperfb3@hotmail.com</td>
+          <td>fI4!4HWt</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>southerngrl28@hotmail.com</td>
+          <td>O1&C7Nn9</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>vieraterry46885616@gmail.com</td>
+          <td>9koOz&oK</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>verniceletitia26754@gmail.com</td>
+          <td>V#q1NSyY</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>jaydenbwolson@hotmail.com</td>
+          <td>SDg17n22</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>ezragreene14@hotmail.com</td>
+          <td>U@DODg2N</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>ezrap1h5wilson@hotmail.com</td>
+          <td>3y@2QI6D</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>amaninstreiftm4089@gmail.com</td>
+          <td>!O94YzgX</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>danielshaw5ea@hotmail.com</td>
+          <td>0N9L5&d9</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>jfjffjjj@colabeta.com</td>
+          <td>ZX0rdtM&</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>iifrvmcemn@xysd.pro</td>
+          <td>v7545syG9BS</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>demccullough8@gmail.com</td>
+          <td>Dd1840be9</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>madelyncravenlgzx5364@gmail.com</td>
+          <td>YJa73QeAG7</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>gervasiuszogbyrb1324@gmail.com</td>
+          <td>wzF1fPTHAz</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>michaelclarkn8686@gmail.com</td>
+          <td>g3mZJSNer3</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>DerrickEaton19856@gmail.com</td>
+          <td>6FHrPA37FV</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>LeonardCastro19956@gmail.com</td>
+          <td>xzyZ4kTwWX</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>NathanOrtiz20003@gmail.com</td>
+          <td>Z3aFGgmyjm</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>TanyaPatterson200210@gmail.com</td>
+          <td>v2TSPufptc</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>AntonioHiggins20026@gmail.com</td>
+          <td>GH8CfSCeaQ</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>FX88888888.COM_1@ICLOUD.COM</td>
+          <td>shenhouyun.COM_u4aRZU1AFf</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>FX88888888.COM@ICLOUD.COM</td>
+          <td>shenhouyun.COM_4dRmzVfRfC</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>shenhouyun.com_19@ICLOUD.COM</td>
+          <td>shenhouyun.COM_RpgdapW7ky</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>CCVCVGGI@ICLOUD.COM</td>
+          <td>shenhouyun.COM_ySMftKVv6n</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>shenhouyun.com_22@ICLOUD.COM</td>
+          <td>shenhouyun.COM_45nTjwrWpp</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>shenhouyun.com_13@icloud.com</td>
+          <td>shenhouyun.COM_gPpb9Qt1Pz</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>FX88888888.COM_2@ICLOUD.COM</td>
+          <td>shenhouyun.COM_4qGkPqAGfv</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>shenhouyun.com_21@ICLOUD.COM</td>
+          <td>shenhouyun.COM_uQBty1dVeD</td>
+        </tr>
+
+        <tr>
+          <td>Normal</td>
+          <td>aletheacantorejx4711@gmail.com</td>
+          <td>tMj4cbA2W4</td>
+        </tr>
+
+        <tr>
+          <td> 美国</td>
+          <td>hqnydmh951m34c@nsvcr.com</td>
+          <td>44s45APgrDhF3K</td>
+        </tr>
+
+        <tr>
+          <td> 美国</td>
+          <td>LeeVictorqv23f@gmail.com</td>
+          <td>44s4CNG2Y1nGv2</td>
+        </tr>
+
+        <tr>
+          <td>台湾</td>
+          <td>ancq61nufio@gmail.com</td>
+          <td>K64JMqDk76</td>
+        </tr>
+
+        <tr>
+          <td>美国</td>
+          <td>pamela53chadwickmjj@outlook.com</td>
+          <td>tV2U2MPPs2</td>
+        </tr>
+
+        <tr>
+          <td>新加坡</td>
+          <td>vernromanfinley@gmail.com</td>
+          <td>DU2Akw3PWp</td>
+        </tr>
+
+        <tr>
+          <td>美国</td>
+          <td>tieshamorwaywi6420@gmail.com</td>
+          <td>Ay93EmWfzV</td>
+        </tr>
+
+        <tr>
+          <td>美国</td>
+          <td>oelwilliamgonzalez616@gmail.com</td>
+          <td>hQTHYKD2Z3</td>
+        </tr>
+
+        <tr>
+          <td>台湾</td>
+          <td>PerezBettyzzd@gmail.com</td>
+          <td>3FDsnKYVcs</td>
+        </tr>
+
+        <tr>
+          <td>美国</td>
+          <td>lambertruth282@gmail.com</td>
+          <td>vMCBERZj8T</td>
+        </tr>
+
+        <tr>
+          <td>香港</td>
+          <td>GarciaNancyvfh7@gmail.com</td>
+          <td>Uvp2EK1dGJ</td>
+        </tr>
+
+        <tr>
+          <td> 美国</td>
+          <td>NancyWright3a@gmail.com</td>
+          <td>44s4ZQyak7D32z</td>
+        </tr>
+
+        <tr>
+          <td> 美国</td>
+          <td>KarenLeergx@gmail.com</td>
+          <td>44s4zdxaUj576E</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
 
   <script>
-    // 检测父容器暗黑模式的函数
     function checkParentTheme() {
       try {
-        // 尝试访问父窗口（可能会因跨域限制而失败）
         if (window.parent && window.parent.document) {
           const parentBody = window.parent.document.body;
           const parentHtml = window.parent.document.documentElement;
 
-          // 检查父容器的HTML或BODY是否包含dark相关的类或属性
           const isDarkMode = parentBody.classList.contains('dark') ||
                              parentBody.classList.contains('dark-mode') ||
                              parentBody.classList.contains('darkmode') ||
@@ -157,64 +787,101 @@
                              parentBody.getAttribute('data-theme') === 'dark' ||
                              window.parent.document.querySelector('html[class*="dark"]') !== null;
 
-          // 根据检测结果应用或移除暗黑模式类
           if (isDarkMode) {
-            document.body.classList.add('dark-mode');
+            document.body.classList.add('dark');
           } else {
-            document.body.classList.remove('dark-mode');
+            document.body.classList.remove('dark');
           }
 
-          return true; // 成功检测父窗口
+          return true;
         }
       } catch (error) {
-        // 跨域访问被阻止，回退到系统偏好
         return false;
       }
 
-      return false; // 无法检测父窗口
+      return false;
     }
 
-    // 如果无法读取父窗口（例如跨域限制），则回退到系统偏好
     function fallbackToSystemPreference() {
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark-mode');
+        document.body.classList.add('dark');
       } else {
-        document.body.classList.remove('dark-mode');
+        document.body.classList.remove('dark');
       }
     }
 
-    // 首次检查主题
     if (!checkParentTheme()) {
       fallbackToSystemPreference();
     }
 
-    // 设置观察器监听父容器变化（如果可以访问）
     try {
       if (window.parent && window.parent.document) {
         const parentHtml = window.parent.document.documentElement;
         const parentBody = window.parent.document.body;
 
-        // 创建一个MutationObserver实例
         const observer = new MutationObserver(function() {
           checkParentTheme();
         });
 
-        // 配置观察选项
         const config = { attributes: true, attributeFilter: ['class', 'data-theme'] };
 
-        // 开始观察HTML和BODY元素
         observer.observe(parentHtml, config);
         observer.observe(parentBody, config);
       }
     } catch (error) {
-      // 无法访问父窗口或设置观察器
-      console.log("无法监听父容器变化");
-
-      // 监听系统主题变化
+      console.log("Unable to listen for parent container changes");
       if (window.matchMedia) {
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', fallbackToSystemPreference);
       }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const tbody = document.querySelector('tbody');
+      const allRows = Array.from(tbody.querySelectorAll('tr'));
+
+      if (allRows.length > 10) {
+        allRows.forEach(row => row.style.display = 'none');
+
+        const randomIndices = [];
+        while (randomIndices.length < 10 && randomIndices.length < allRows.length) {
+          const randomIndex = Math.floor(Math.random() * allRows.length);
+          if (!randomIndices.includes(randomIndex)) {
+            randomIndices.push(randomIndex);
+          }
+        }
+
+        randomIndices.forEach(index => {
+          allRows[index].style.display = '';
+        });
+      }
+
+      document.querySelectorAll('td').forEach(cell => {
+        cell.addEventListener('click', function() {
+          const text = this.textContent.trim();
+
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          textarea.style.position = 'fixed';
+          textarea.style.opacity = 0;
+          document.body.appendChild(textarea);
+          textarea.select();
+
+          try {
+            document.execCommand('copy');
+
+            this.classList.add('copy-success');
+
+            setTimeout(() => {
+              this.classList.remove('copy-success');
+            }, 2000);
+          } catch (err) {
+            console.error('Unable to copy content: ', err);
+          } finally {
+            document.body.removeChild(textarea);
+          }
+        });
+      });
+    });
   </script>
 </body>
 </html>
