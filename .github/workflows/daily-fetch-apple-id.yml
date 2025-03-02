@@ -2,7 +2,7 @@ name: 每日抓取 Apple ID
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/1 * * * *'
   workflow_dispatch:
 
 # 添加权限配置
@@ -45,11 +45,12 @@ jobs:
 
         # 检查是否有变更
         if git diff --quiet index.html index.json; then
-          echo "index.html 和 index.json 没有变更，不需要提交"
+          echo "index.html 和 index.json 没有变更，提交空提交"
+          git commit --allow-empty -m "空提交: Apple ID账号列表 [$(date '+%Y-%m-%d %H:%M:%S')]"
         else
           # 提交变更
           git add index.html index.json
-          git commit -m "自动更新: Apple ID账号列表 [$(date '+%Y-%m-%d')]"
-          git push
-          echo "index.html 和 index.json 已更新并提交"
+          git commit -m "自动更新: Apple ID账号列表 [$(date '+%Y-%m-%d %H:%M:%S')]"
         fi
+        git push
+        echo "index.html 和 index.json 已更新并提交"
