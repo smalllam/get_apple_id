@@ -295,11 +295,6 @@
     "region": ""
   },
   {
-    "account": "jushao777777@163.com",
-    "password": "RgVaR9jApB",
-    "region": ""
-  },
-  {
     "account": "gygucjd403@hotmail.com",
     "password": "z5uy39fqM7",
     "region": ""
@@ -310,13 +305,18 @@
     "region": ""
   },
   {
-    "account": "MontesCarla2903@outlook.com",
-    "password": "Aa250729",
+    "account": "jushao777777@163.com",
+    "password": "RgVaR9jApB",
     "region": ""
   },
   {
     "account": "RodgersMaria2425@outlook.com",
     "password": "fa7xcdtmMG",
+    "region": ""
+  },
+  {
+    "account": "MontesCarla2903@outlook.com",
+    "password": "Aa250729",
     "region": ""
   },
   {
@@ -438,10 +438,5 @@
     "account": "alburnett37359@gmail.com",
     "password": "Dd1f78b4d",
     "region": ""
-  },
-  {
-    "account": "3020@lvoeky.com",
-    "password": "MXM9gPY97F",
-    "region": "如果账号无法使用请换个账号"
   }
 ]
