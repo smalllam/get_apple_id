@@ -560,11 +560,6 @@
     "region": ""
   },
   {
-    "account": "emilioh7pr40x@outlook.my",
-    "password": "qecUzA5uFA",
-    "region": "美国"
-  },
-  {
     "account": "gustave_cece_192.elwin899@outlook.es",
     "password": "pWS1w2rkb6",
     "region": "美国"
@@ -575,8 +570,13 @@
     "region": "美国"
   },
   {
+    "account": "emilioh7pr40x@outlook.my",
+    "password": "qecUzA5uFA",
+    "region": "美国"
+  },
+  {
     "account": "zts_2003@163.com",
-    "password": "Vfu1515pw",
+    "password": "V8wj0M@m",
     "region": ""
   }
 ]
