@@ -1,15 +1,5 @@
 [
   {
-    "account": "unborn_amayerican@icloud.com",
-    "password": "qhQN5hvgTD",
-    "region": ""
-  },
-  {
-    "account": "rtonywzsai20459@icloud.com",
-    "password": "1bd8nSBBzk",
-    "region": ""
-  },
-  {
     "account": "untidyerstwhile9907@icloud.com",
     "password": "NQ9fYWCme6",
     "region": ""
@@ -22,6 +12,16 @@
   {
     "account": "homesteadersurrep@icloud.com",
     "password": "hCpp8zN7k7",
+    "region": ""
+  },
+  {
+    "account": "rtonywzsai20459@icloud.com",
+    "password": "1bd8nSBBzk",
+    "region": ""
+  },
+  {
+    "account": "unborn_amayerican@icloud.com",
+    "password": "qhQN5hvgTD",
     "region": ""
   },
   {
@@ -553,10 +553,5 @@
     "account": "REBELPRIDE79@hotmail.com",
     "password": "6CFTdyJpNA",
     "region": ""
-  },
-  {
-    "account": "alvinadamayamti2806@gmail.com",
-    "password": "4HMLqIrutBV9VGs3Lhot2g==",
-    "region": "香港"
   }
 ]
